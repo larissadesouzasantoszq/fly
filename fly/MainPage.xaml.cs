@@ -38,5 +38,28 @@ public partial class MainPage : ContentPage
 		imgCanoCima.TransltionX -= velocidade;
 		imgCanoBaixo.TransltionX -= velocidade;
 
-		if ()
+		if (imgCanoBaixo.TranslationX <- LarguraJanela)
+		{
+			imgCanoBaixo.TranslationX = 0;
+			imgCanoCima.TranslationX =0;
+		}
 }
+
+    void Ei (object s,TappedEventArgs e )
+{
+	GameOverFrame.IsVisible = false;
+	estaMorto = false;
+	Inicializar ();
+	Desenha ();
+}
+    void Inicializar()
+	{
+		Passaro.TranslationY = 0;
+	}
+	bool VerificaColisao()
+	{
+		if(! estaMorto)
+		{
+			if
+		}
+	}

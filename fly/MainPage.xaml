@@ -5,4 +5,16 @@
 
     
 
-</ContentPage>
+
+ <Gride>
+ <Image Source="fundo.png"
+     Aspect ="Fill"
+     Horizontal1Options="Fill"
+     Vertical1Options="Fill"/>
+
+  <Image Source="passarinho.png"
+    x:Name="Passaro"
+    HorizontalOptions="Center"
+    WidthRequest="60"
+    HeightRequest="60"/>
+    </ContentPage>
