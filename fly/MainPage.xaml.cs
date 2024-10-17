@@ -2,11 +2,17 @@
 
 public partial class MainPage : ContentPage
 {
+	int score=0;
+	const int aberturaMinima = 50;
+	const int forcaPulo=30;
+	const int maxTempoPulando=3;//frames
+	bool estaPulando=false;
+	int tempoPulando=0;
 	const int TempoEntreFrames = 25;
-	const int gravidade = 3;
+	const int gravidade = 6;
 	double LarguraJanela;
 	double AlturaJanela;
-	int velocidade = 20;
+	int velocidade = 10;
 	bool estaMorto = true;
 	public MainPage()
 	{
@@ -17,13 +23,13 @@ public partial class MainPage : ContentPage
 		while (!estaMorto)
 		{
 			AplicaGravidade();
-			GerenciaCanos();
+			GerenciarCanos();
 			await Task.Delay(TempoEntreFrames);
 		}
 	}
 	void AplicaGravidade()
 	{
-		Passaro.TranslationY += Gravidade:
+		Passaro.TranslationY += gravidade;
 		}
 
 	protected override void OnSizeAllocated(double w, double h)
@@ -33,18 +39,43 @@ public partial class MainPage : ContentPage
 		AlturaJanela = h;
 
 	}
-	void GerenciaCanos()
+	void GerenciarCanos()
 	{
-		imgCanoCima.TransltionX -= velocidade;
-		imgCanoBaixo.TransltionX -= velocidade;
 
-		if (imgCanoBaixo.TranslationX <- LarguraJanela)
+		imgCanoCima.TranslationX -= velocidade;
+		imgCanoBaixo.TranslationX -= velocidade;
+		if (imgCanoBaixo.TranslationX < -LarguraJanela)
 		{
-			imgCanoBaixo.TranslationX = 0;
-			imgCanoCima.TranslationX =0;
-		}
-}
+			imgCanoBaixo.TranslationX = 20;
+			imgCanoCima.TranslationX = 20;
+		
+			var alturaMaxima = -50;
+			var alturaMinima = -imgCanoBaixo.HeightRequest;
 
+			imgCanoCima.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
+			imgCanoBaixo.TranslationY = imgCanoCima.TranslationY + aberturaMinima + imgCanoBaixo.HeightRequest;
+
+			score++;
+			LabelScore.Text = "Canos: " + score.ToString("D3");
+		}
+	}
+
+ void AplicaPulo()
+ {
+	 Passaro.TranslationY-=forcaPulo;
+	 tempoPulando++;
+	 if (tempoPulando >= maxTempoPulando)
+	 {
+		estaPulando=false;
+		tempoPulando=0;
+
+	 }
+ }
+ void OnGridCliked(object sender, TappedEventArgs e)
+ {
+	estaPulando=true;
+ }
+ 
     void Ei (object s,TappedEventArgs e )
 {
 	GameOverFrame.IsVisible = false;
@@ -56,10 +87,32 @@ public partial class MainPage : ContentPage
 	{
 		Passaro.TranslationY = 0;
 	}
+	bool VerificaColisaoTeto()
+	{
+		var minY=AlturaJanela/2;
+		if (Passaro.TranslationY <=minY)
+		return true;
+		else
+		return false;
+	}
+	bool VerificaColisaoChao()
+	{
+		var maxY=AlturaJanela/2;
+		if(Passaro.TranslationY >=maxY)
+		return true;
+		else 
+		return false;
+	}
 	bool VerificaColisao()
 	{
 		if(! estaMorto)
 		{
-			if
+			if(VerificaColisaoTeto() ||
+			VerificaColisaoChao())
+			{
+				return true;
+			}
 		}
+		return true;
 	}
+}
